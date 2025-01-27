@@ -1,0 +1,12 @@
+{
+    "messages": {
+        "welcome": "Welcome to Calculator!",
+        "input_first_number": "Enter the first number: ",
+        "input_second_number": "Enter the second number: ",
+        "Invalid_number": "Please enter a valid number.",
+        "Invalid_operation": "Please enter a valid operation.",
+        "operation_choices": "You can select these four operations: (+, -, *, /)",
+        "select_operation":"Select the operation to perform: ",
+        "another_operation": "Would you like to do another operation? (y/n)"
+    }
+}

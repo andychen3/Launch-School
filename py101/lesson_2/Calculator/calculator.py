@@ -8,11 +8,10 @@
 # Ask the user which operation to perform
 # Perform operation on the two numbers with operation that was selected
 # display the results
+import json
 
-# operation_dict = {"+": first_number + second_number,
-#                   "-": first_number - second_number,
-#                   "*": first_number * second_number,
-#                   "/": first_number / second_number}
+with open("calculator_messages.json", "r") as file:
+    data = json.load(file)
 
 
 def prompt(message):
@@ -21,47 +20,49 @@ def prompt(message):
 
 def is_valid_number(number):
     try:
-        int(number)
+        float(number)
     except ValueError:
         return False
-    return int(number)
+    return float(number)
 
 
-prompt("Welcome to Calculator!")
+while True:
+    prompt(data["messages"]["welcome"])
 
-prompt("Enter the first number: ")
-first_number = is_valid_number(input())
-
-while not first_number:
-    prompt("Please enter a valid number.")
+    prompt(data["messages"]["input_first_number"])
     first_number = is_valid_number(input())
 
+    while not first_number:
+        prompt(data["messages"]["Invalid_number"])
+        first_number = is_valid_number(input())
 
-prompt("Enter the second number: ")
-second_number = is_valid_number(input())
-
-while not second_number:
-    prompt("Please enter a valid number.")
+    prompt(data["messages"]["input_second_number"])
     second_number = is_valid_number(input())
 
+    while not second_number:
+        prompt(data["messages"]["Invalid_number"])
+        second_number = is_valid_number(input())
 
-prompt("You can select these four operations: (+, -, *, /)")
-prompt("Select the operation to perform: ")
-operation = input()
-
-while operation not in ["+", "-", "/", "*"]:
-    prompt("Please enter a valid operation.")
+    prompt(data["messages"]["operation_choices"])
+    prompt(data["messages"]["select_operation"])
     operation = input()
 
+    while operation not in ["+", "-", "/", "*"]:
+        prompt(data["messages"]["Invalid_operation"])
+        operation = input()
 
-match operation:
-    case "+":
-        result = first_number + second_number
-    case "-":
-        result = first_number - second_number
-    case "*":
-        result = first_number * second_number
-    case "/":
-        result = first_number / second_number
+    match operation:
+        case "+":
+            result = first_number + second_number
+        case "-":
+            result = first_number - second_number
+        case "*":
+            result = first_number * second_number
+        case "/":
+            result = first_number / second_number
 
-prompt(f"{first_number} {operation} {second_number} = {result}")
+    prompt(f"{first_number} {operation} {second_number} = {result}")
+    prompt(data["messages"]["another_operation"])
+    answer = input()
+    if answer and answer[0].lower() != "y":
+        break
