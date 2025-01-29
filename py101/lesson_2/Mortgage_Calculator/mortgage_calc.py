@@ -20,8 +20,9 @@ def is_valid_number(number):
     Tests if number is greater than 0 and not infinity.
     '''
     try:
-        if float(number) > 0 and float(number) != float("inf") \
-                            and float(number) != float("-inf"):
+        num = float(number)
+        if num > 0 and num != float("inf") \
+                and num != float("-inf"):
             return True
         return False
     except ValueError:
