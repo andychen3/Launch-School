@@ -1,0 +1,9 @@
+{
+    "welcome": "Welcome to the Mortgage Calculator!",
+    "input_loan_amount": "Enter the loan amount: ",
+    "input_apr": "Enter the APR: ",
+    "input_loan_duration": "Please enter the loan duration in years: ",
+    "invalid_number": "Please enter a valid number.",
+    "invalid_loan_duration": "Please enter a valid year.",
+    "another_calculation": "Would you like to calculate another monthly payment? (y/n)"
+}
