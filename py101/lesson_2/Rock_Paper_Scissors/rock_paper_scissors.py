@@ -5,6 +5,7 @@ import json
 import random
 
 VALID_CHOICES = ["rock", "scissor", "paper", "spock", "lizard"]
+player_dict = {"You": 0, "Computer": 0}
 
 with open("rps_messages.json", "r", encoding="utf-8") as file:
     MESSAGES = json.load(file)
@@ -27,10 +28,29 @@ def validate_user_choice(selection):
         match selection:
             case selection if selection in VALID_CHOICES:
                 return True
+            case "s":
+                return False
+            case selection if any(choice.startswith(selection)
+                                  for choice in VALID_CHOICES):
+                return True
             case _:
                 return False
     except ValueError:
         return False
+
+
+def validate_shorthand_user_choice(user_choice):
+    '''
+    Further validation for user_choice that is shorthand
+    '''
+    if user_choice in VALID_CHOICES:
+        return user_choice
+
+    for choice in VALID_CHOICES:
+        if choice.startswith(user_choice):
+            return choice
+
+    return None
 
 
 def select_user_choice():
@@ -70,10 +90,13 @@ def display_winner(user_selection, computer_selection):
     '''
     Determines who is the winner.
     '''
-    prompt(f"You chose {user_selection}, computer chose {computer_selection}.")
+    user_selection = validate_shorthand_user_choice(user_selection)
+
+    prompt(f"You chose {user_selection} | "
+           f"computer chose {computer_selection}.")
 
     if user_selection == computer_selection:
-        prompt("The match ended in a Tie.")
+        return "Tie"
 
     winning_cases = {
         "rock": ["scissor", "lizard"],
@@ -84,9 +107,27 @@ def display_winner(user_selection, computer_selection):
     }
 
     if computer_selection in winning_cases[user_selection]:
-        prompt("The winner is you!")
-    else:
-        prompt("The winner is the computer!")
+        return "You"
+    return "Computer"
+
+
+def decide_winner(winning_player):
+    '''
+    Tallys up the winner.
+    Winner is declared if their wins equals 3.
+    '''
+    if winning_player == "Tie":
+        return False
+
+    player_dict[winning_player] += 1
+
+    prompt(f"Your score is {player_dict['You']} | "
+           f"computer score is {player_dict['Computer']}")
+
+    if player_dict[winning_player] == 3:
+        prompt(f"The winner is {winning_player}!")
+        return True
+    return False
 
 
 def play_game():
@@ -94,18 +135,22 @@ def play_game():
     Starts the game.
     '''
     prompt(MESSAGES["welcome"])
+    match_over = False
 
     while True:
         user_choice = select_user_choice()
         computer_choice = select_computer_choice()
 
-        display_winner(user_choice, computer_choice)
+        winner = display_winner(user_choice, computer_choice)
 
-        prompt(MESSAGES["play_again"])
-        answer = input()
+        match_over = decide_winner(winner)
 
-        if answer and answer.lower()[0] != "y":
-            break
+        if match_over:
+            prompt(MESSAGES["play_again"])
+            answer = input()
+
+            if answer and answer.lower()[0] != "y":
+                break
 
 
 play_game()
