@@ -1,8 +1,10 @@
 '''
-Rock Paper Scissors Application
+Rock Paper Scissors Spock Lizard Application
 '''
 import json
 import random
+
+VALID_CHOICES = ["rock", "scissor", "paper", "spock", "lizard"]
 
 with open("rps_messages.json", "r", encoding="utf-8") as file:
     MESSAGES = json.load(file)
@@ -23,11 +25,7 @@ def validate_user_choice(selection):
         selection = selection.lower()
 
         match selection:
-            case selection if selection and selection == "rock":
-                return True
-            case selection if selection and selection == "paper":
-                return True
-            case selection if selection and selection == "scissor":
+            case selection if selection in VALID_CHOICES:
                 return True
             case _:
                 return False
@@ -53,7 +51,7 @@ def select_computer_choice():
     '''
     Computer selects choice
     '''
-    random_choice = random.randint(0, 2)
+    random_choice = random.randint(0, 4)
 
     match random_choice:
         case 0:
@@ -62,6 +60,10 @@ def select_computer_choice():
             return "paper"
         case 2:
             return "scissor"
+        case 3:
+            return "spock"
+        case 4:
+            return "lizard"
 
 
 def display_winner(user_selection, computer_selection):
@@ -74,12 +76,14 @@ def display_winner(user_selection, computer_selection):
         prompt("The match ended in a Tie.")
 
     winning_cases = {
-        "rock": "scissor",
-        "paper": "rock",
-        "scissor": "paper"
+        "rock": ["scissor", "lizard"],
+        "paper": ["rock", "spock"],
+        "scissor": ["paper", "lizard"],
+        "spock": ["scissor", "rock"],
+        "lizard": ["paper", "spock"],
     }
 
-    if winning_cases[user_selection] == computer_selection:
+    if computer_selection in winning_cases[user_selection]:
         prompt("The winner is you!")
     else:
         prompt("The winner is the computer!")
@@ -87,7 +91,7 @@ def display_winner(user_selection, computer_selection):
 
 def play_game():
     '''
-    Starts the rock paper scissors game.
+    Starts the game.
     '''
     prompt(MESSAGES["welcome"])
 
