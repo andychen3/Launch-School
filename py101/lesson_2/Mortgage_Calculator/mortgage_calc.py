@@ -16,13 +16,16 @@ def prompt(message):
     print(f"=> {message}")
 
 
-def is_valid_number(number):
+def is_valid_number(number, type_of_input):
     '''
     Tests if number is greater than 0 and not infinity.
     '''
     try:
         num = float(number)
-        if num >= 0 and num != float("inf") \
+        if type_of_input == "apr" and num >= 0 and num != float("inf") \
+                and num != float("-inf"):
+            return True
+        if type_of_input == "loan" and num > 0 and num != float("inf") \
                 and num != float("-inf"):
             return True
         return False
@@ -60,7 +63,7 @@ def calc_mortgage_payment(loan, interest_rate, loan_duration):
                                     ** (-loan_duration)))
 
 
-def validate_user_input(message):
+def validate_user_input(message, type_of_input):
     '''
     Validates and returns user input
     '''
@@ -68,7 +71,7 @@ def validate_user_input(message):
         prompt(MESSAGES[message])
         user_input = input()
 
-        if is_valid_number(user_input):
+        if is_valid_number(user_input, type_of_input):
             return float(user_input)
 
         prompt(MESSAGES["invalid_number"])
@@ -92,8 +95,8 @@ def loan_calculator():
     '''
     Main function of loan calculator
     '''
-    loan_amount = validate_user_input("input_loan_amount")
-    apr = convert_apr(validate_user_input("input_apr"))
+    loan_amount = validate_user_input("input_loan_amount", "loan")
+    apr = convert_apr(validate_user_input("input_apr", "apr"))
     loan_duration_in_years = get_loan_duration()
 
     loan_duration_in_months = loan_duration_in_years * 12
@@ -108,7 +111,7 @@ def validate_continuation_command(command):
     '''
     Validates if user wants to continue the game.
     '''
-    while not command or command != "no" or command != "yes":
+    while not command or (command not in ["yes", "no"]):
         if command in ["yes", "no"]:
             return command
         prompt(MESSAGES["invalid_command"])
