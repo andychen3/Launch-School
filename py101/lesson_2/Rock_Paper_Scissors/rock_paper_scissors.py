@@ -3,6 +3,7 @@ Rock Paper Scissors Spock Lizard Application
 '''
 import json
 import random
+import os
 
 VALID_CHOICES = ["rock", "scissor", "paper", "spock", "lizard"]
 player_dict = {"You": 0, "Computer": 0}
@@ -30,8 +31,8 @@ def validate_user_choice(selection):
                 return True
             case "s":
                 return False
-            case selection if any(choice.startswith(selection)
-                                  for choice in VALID_CHOICES):
+            case selection if selection and any(choice.startswith(selection)
+                                                for choice in VALID_CHOICES):
                 return True
             case _:
                 return False
@@ -64,26 +65,14 @@ def select_user_choice():
         print(MESSAGES["invalid_choice"])
         choice = input()
 
-    return choice
+    return choice.lower()
 
 
 def select_computer_choice():
     '''
     Computer selects choice
     '''
-    random_choice = random.randint(0, 4)
-
-    match random_choice:
-        case 0:
-            return "rock"
-        case 1:
-            return "paper"
-        case 2:
-            return "scissor"
-        case 3:
-            return "spock"
-        case 4:
-            return "lizard"
+    return random.choice(VALID_CHOICES)
 
 
 def display_winner(user_selection, computer_selection):
@@ -130,6 +119,18 @@ def decide_winner(winning_player):
     return False
 
 
+def validate_continuation_command(command):
+    '''
+    Validates if user wants to continue the game.
+    '''
+    while not command or command != "no" or command != "yes":
+        if command in ["yes", "no"]:
+            return command
+        prompt(MESSAGES["invalid_command"])
+        command = input().lower()
+    return command
+
+
 def play_game():
     '''
     Starts the game.
@@ -147,10 +148,17 @@ def play_game():
 
         if match_over:
             prompt(MESSAGES["play_again"])
-            answer = input()
+            command = input()
 
-            if answer and answer.lower()[0] != "y":
+            command = validate_continuation_command(command)
+
+            if command == "no":
                 break
+            if command == "yes":
+                os.system("clear")
+                player_dict["You"] = 0
+                player_dict["Computer"] = 0
+                continue
 
 
 play_game()

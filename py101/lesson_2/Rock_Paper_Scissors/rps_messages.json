@@ -2,5 +2,6 @@
     "welcome": "Welcome to Rock, Paper Scissor Spock Lizard",
     "game_choices": "Please select the choices (rock, paper, scissor, spock, or lizard).",
     "invalid_choice": "Please enter a valid choice (rock, paper, scissor, spock, or lizard)",
-    "play_again": "Would you like to play again (y/n)?"
+    "play_again": "Would you like to play again (yes / no)?",
+    "invalid_command": "Please enter a valid input. (yes / no)."
 }
