@@ -5,5 +5,6 @@
     "input_loan_duration": "Please enter the loan duration in years: ",
     "invalid_number": "Please enter a valid number.",
     "invalid_loan_duration": "Please enter a valid year.",
-    "another_calculation": "Would you like to calculate another monthly payment? (y/n)"
+    "invalid_command": "Please enter a valid input. (yes / no).",
+    "another_calculation": "Would you like to calculate another monthly payment? (yes / no)"
 }
