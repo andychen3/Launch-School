@@ -11,6 +11,14 @@ def crunch(string):
             new_word.append(char)
     return "".join(new_word)
 
+# def crunch(string):
+#     new_string = []
+
+#     for char in string:
+#         if not new_string or (new_string and new_string[-1] != char):
+#             new_string.append(char)
+    
+#     return "".join(new_string)
 
 # These examples should all print True
 print(crunch('ddaaiillyy ddoouubbllee') == 'daily double')

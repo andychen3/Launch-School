@@ -12,7 +12,13 @@ def twice(number):
     else:
         return number * 2
 
-
+# def twice(num):
+#     string_num = str(num)
+#     mid = len(string_num) // 2
+#     if string_num[:mid] == string_num[mid:]:
+#         return num
+#     else:
+#         return num * 2
     
 
 
