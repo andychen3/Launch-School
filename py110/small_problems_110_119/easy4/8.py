@@ -4,85 +4,80 @@
 Questions:
 
 
-Input:
-Output:
+Input: string
+Output: list of substrings
 Explicit:
+1. single chars are not palindromes
+2. case sensitive.
+3. duplicates are allowed. 
+4. sorted by order of appearance in input string
 Implicit:
+1. punctuations are okay
 
+Data structures
+1. Use a list to hold the answer and to build up each individual substrings
 
 Pseudocode:
+1. check if palindrome
+    1a. single chars are not considered palindromes
+    2a. check case sensitivity
+
+    compare original string to reversed string and if it is equal then
+        return True
+    else:
+        return False
+
+2. create the substrings
+    0. result = []
+    1. iterate starting at the first index. Then build substring starting from the
+    second onwards.
+    2. Move to next index then repeat. (nested loop)
+    3. Iterate through substring list and pass in each substring to palindrome checker
+    4. if palindrome append to result
+    5. return result
+
+madam
+0 1 2 3 4 
+
+madam
+adam
+dam
+am
+m
 
 '''
+def check_for_palindrome(string):
+    if len(string) == 1:
+        return False
+    elif string == string[::-1]:
+        return True
+    else:
+        return False
 
-
-# def palindromes(string):
-print("13" > "23")
-
-
-"""
-// You will be given a number and you will need to return it as a string in expanded form. For example:
-
-input: integer
-output: string representation of the number
-Assume input valid number. one argument. Positive number. Incase of 0 it would be an empty string
-
-Data Structures:
-1. Convert input into a string or a list of characters
-
-
-12
-0 1
-
-length = 2 - 1
-
-(1 * 10 * 1 - 0) + (2 * 10 * 1 - 1) 
-
-70304
-0 1 2 3 4
-length = 5 - 1
-
-(7 * 10 ^ (4 - 0)) + (0) + (3 * 10 ^ 2) + 0 + (4 * 10 ^ 4 -4)
-
-
-// expanded_form(12); # Should return '10 + 2'
-// expanded_form(42); # Should return '40 + 2'
-// expanded_form(70304); # Should return '70000 + 300 + 4'
-
-// Note: All numbers will be whole numbers greater than 0.
-
-// p expanded_form(12) == '10 + 2'
-// p expanded_form(42) == '40 + 2'
-// p expanded_form(70304) == '70000 + 300 + 4'
-
-// print(expanded_form(12) == '10 + 2')
-// print(expanded_form(42) == '40 + 2')
-// print(expanded_form(70304) == '70000 + 300 + 4')
-
-// console.log(expanded_form(12) == '10 + 2');
-// console.log(expanded_form(42) == '40 + 2');
-// console.log(expanded_form(70304) == '70000 + 300 + 4');
-
-Pseudocode:
-1. Convert input into a string
-2. Iterate through the string number
-3. Find the length of the list
-4. Calculate the place of the number
-5. join back the string and conver it to a number
-
-"""
-def expanded_form(number):
-    str_num = str(number)
+def palindromes(string):
     result = []
-    length = len(str_num) - 1
+    list_of_substrings = [string[idx:i + 1] for idx in range(len(string) - 1) for i in range(idx, len(string))]
+    print(list_of_substrings)
+    for substring in list_of_substrings:
+        if check_for_palindrome(substring):
+            result.append(substring)
+    
+    return result
 
-    for idx, digit in enumerate(str_num):
-        num = (int(digit) * (10 ** (length - idx)))
-        if num != 0:
-            result.append(str(num))
 
+# print(palindromes('abcd') == [])                  # True
+print(palindromes('madam') == ['madam', 'ada'])   # True 
+# print(palindromes('hello-madam-did-madam-goodbye') ==
+#                   [
+#                       'll', '-madam-', '-madam-did-madam-',
+#                       'madam', 'madam-did-madam', 'ada',
+#                       'adam-did-mada', 'dam-did-mad',
+#                       'am-did-ma', 'm-did-m', '-did-',
+#                       'did', '-madam-', 'madam', 'ada', 'oo',
+#                   ])    # True
 
-    return " + ".join(result)
-
-print(expanded_form(12) == '10 + 2')
-print(expanded_form(42) == '40 + 2')
-print(expanded_form(70304) == '70000 + 300 + 4')
+# print(palindromes('knitting cassettes') ==
+#                   [
+#                       'nittin', 'itti', 'tt', 'ss',
+#                       'settes', 'ette', 'tt',
+#                   ])    # True
