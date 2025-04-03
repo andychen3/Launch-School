@@ -1,0 +1,10 @@
+test.py
+__pycache__
+cipher.py
+test_coding.py
+.pylintrc
+add.py
+sum_squares.py
+log_file.txt
+log.txt
+main.py
