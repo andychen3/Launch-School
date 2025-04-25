@@ -1,0 +1,1 @@
+SELECT max(count) FROM (SELECT count(bidder_id) FROM bids GROUP BY bidder_id) as max_bids ;
