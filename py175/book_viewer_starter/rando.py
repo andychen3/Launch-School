@@ -1,0 +1,4 @@
+users = {'jamy': {'email': 'jamy.rustenburg@gmail.com', 'interests': ['woodworking', 'cooking', 'reading']}, 'nora': {'email': 'nora.alnes@yahoo.com', 'interests': ['cycling', 'basketball', 'economics']}, 'hiroko': {'email': 'hiroko.ohara@hotmail.com', 'interests': []}, 'amy': {'email': 'amy.hope@hotmail.com', 'interests': ['biking', 'fighting', 'lifting']}}
+
+for name in users.values():
+    print(name)
